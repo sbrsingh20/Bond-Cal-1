@@ -1,30 +1,46 @@
-import json
+# Simple calculator function
+def add(x, y):
+    return x + y
 
-def handler(request):
-    try:
-        # Read request body (if any)
-        data = request.json()
-        
-        # Parameters
-        face_value = data.get('face_value', 1000)
-        coupon_rate = data.get('coupon_rate', 0.05)
-        ytm = data.get('ytm', 0.04)
-        years_to_maturity = data.get('years_to_maturity', 10)
-        
-        # Bond price calculation logic
-        coupon_payment = face_value * coupon_rate
-        coupon_pv = sum([coupon_payment / (1 + ytm)**t for t in range(1, years_to_maturity + 1)])
-        face_value_pv = face_value / (1 + ytm)**years_to_maturity
-        bond_price = coupon_pv + face_value_pv
-        
-        # Return the result as a JSON response
-        return {
-            'statusCode': 200,
-            'body': json.dumps({'bond_price': round(bond_price, 2)})
-        }
+def subtract(x, y):
+    return x - y
 
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': str(e)})
-        }
+def multiply(x, y):
+    return x * y
+
+def divide(x, y):
+    if y != 0:
+        return x / y
+    else:
+        return "Error! Division by zero."
+
+# Displaying options to the user
+def calculator():
+    print("Select operation:")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+    
+    # Take input from the user
+    choice = input("Enter choice (1/2/3/4): ")
+
+    # Checking if the choice is valid
+    if choice in ['1', '2', '3', '4']:
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+
+        if choice == '1':
+            print(f"{num1} + {num2} = {add(num1, num2)}")
+        elif choice == '2':
+            print(f"{num1} - {num2} = {subtract(num1, num2)}")
+        elif choice == '3':
+            print(f"{num1} * {num2} = {multiply(num1, num2)}")
+        elif choice == '4':
+            print(f"{num1} / {num2} = {divide(num1, num2)}")
+    else:
+        print("Invalid input, please choose a valid operation.")
+
+# Running the calculator
+if __name__ == "__main__":
+    calculator()
